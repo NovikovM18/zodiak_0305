@@ -32,7 +32,6 @@ html, body {
     text-transform: uppercase;
   }
   &__text {
-
     padding: 0;
     margin: 6px 0 0 0;
 
@@ -40,13 +39,22 @@ html, body {
 }
 
 .container {
+  position: relative;
   margin: 0 auto;
-  padding: 10px;
+  // padding: 10px;
   width: 88%;
   min-height: 80vh;
 
   @media (min-width: 775px) {
     width: 624px;
+  }
+
+  &-form {
+    position: absolute;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -71,10 +79,12 @@ html, body {
 }
 
 .display {
+  position: relative;
   display: flex;
+  height: 100%;
+  width: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   margin-top: 10px;
   &__title {
     color: #315DF9;
@@ -82,12 +92,18 @@ html, body {
     font-weight: 700;
   }
   &__text {
-    margin-top: 8px;
+    margin: 0 0 12px;
+  }
+
+  &__button {
+    position: absolute;
+    bottom: 0;
   }
 }
 
 .form {
   &__header {
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,9 +133,15 @@ html, body {
       justify-content: space-around;
       align-items: center;
       flex-direction: column;
-      gap: 48px;
+      gap: 28px;
       margin-bottom: 48px;
-    }
+      
+      &-item {
+        width: 68px;
+        height: 24px;
+        margin-bottom: 12px;
+      }
+  }
   }
 }
 
@@ -198,6 +220,7 @@ button {
 }
 
 .zodiak__box {
+  margin: -10px 0 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,6 +231,10 @@ button {
     cursor: pointer;
     &:active {
       transform: scale(1.2, 1.2);
+    }
+    &-p {
+      margin: 0;
+      text-align: center;
     }
   }
 }
@@ -258,16 +285,21 @@ button {
   align-items: center;
 }
 
-.fetchingData__item {
+.fetchingData {
+  width: 100%;
+  &__item {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   align-items: center;
+  }
 }
 
 .footer {
+  margin: 0;
   padding: 0;
   width: 100%;
+  height: 24px;
   bottom: 0;
   text-align: center;
 

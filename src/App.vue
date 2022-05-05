@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="container">
-    <form @submit.prevent="sendData">
+    <form class="container-form">
       <div v-show="display === 1" class="display">
         <div class="goroskop">
           <div class="goroskop-circle" id="goroskop-circle"></div>
@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <button v-if="formData.gender" type="button" @click="changeDisplay">ДАЛЕЕ</button>
+        <button class="display__button" v-if="formData.gender" type="button" @click="changeDisplay">ДАЛЕЕ</button>
       </div>
 
       <div v-show="display === 2" class="display">
@@ -61,7 +61,7 @@
             </div>
           </div>
           
-          <button v-if="formData.dayTime" type="button" @click="changeDisplay">ДАЛЕЕ</button>
+          <button class="display__button" v-if="formData.dayTime" type="button" @click="changeDisplay">ДАЛЕЕ</button>
       </div>
 
       <div v-show="display === 3" class="display">
@@ -88,7 +88,7 @@
             </div>
           </div>
 
-          <button v-if="formData.insomnia" type="button" @click="changeDisplay">ДАЛЕЕ</button>
+          <button class="display__button" v-if="formData.insomnia" type="button" @click="changeDisplay">ДАЛЕЕ</button>
       </div>
 
       <div v-show="display === 4" class="display">
@@ -115,7 +115,7 @@
             </div>
           </div>
 
-          <button v-if="formData.makesPlan" type="button" @click="changeDisplay">ДАЛЕЕ</button>
+          <button class="display__button" v-if="formData.makesPlan" type="button" @click="changeDisplay">ДАЛЕЕ</button>
       </div>
 
       <div v-show="display === 5" class="display">
@@ -147,7 +147,7 @@
             </div>
           </div>
 
-          <button v-if="formData.FiveYearsAgo" type="button" @click="changeDisplay">ДАЛЕЕ</button>
+          <button class="display__button" v-if="formData.FiveYearsAgo" type="button" @click="changeDisplay">ДАЛЕЕ</button>
       </div>
 
       <div v-show="display === 6" class="display">
@@ -158,38 +158,85 @@
             <h2 class="form__header-title">Введите дату своего рождения:</h2>
           </div>
           <div class="form__input-l">
-            <select v-model="formData.day">
-              <option selected disabled>Число</option>
+            <select @change="setZodiak()" v-model="formData.day" class="form__input-l-item">
+              <option disabled value="">Число</option>
               <option v-for="n in 31" :key="n">{{n}}</option>
             </select>
-            
-            <select v-model="formData.month">
-              <option selected disabled>Месяц</option>
+
+            <select @change="setZodiak()" v-model="formData.month" class="form__input-l-item">
+              <option disabled value="">Месяц</option>
               <option v-for="n in 12" :key="n">{{n}}</option>
             </select>
             
-            <select v-model="formData.year">
-              <option selected disabled>Год</option>
-              <option v-for="n in 100" :key="n">{{n}}</option>
+            <select v-model="formData.year" class="form__input-l-item">
+              <option disabled value="">Год</option>
+              <option v-for="n in showYear()" :value="n" :key="n">{{n}}</option>
             </select>
           </div>
 
-          <div class="zodiak__box">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/1_Capricorn.png" alt="Capricorn">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/2_Aquarius.png" alt="Aquarius">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/3_Pisces.png" alt="Pisces">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/4_aries.png" alt="Aries">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/5_Taurus.png" alt="Taurus">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/6_Gemini.png" alt="Gemini">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/7_Rak.png" alt="Rak">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/8_Leo.png" alt="Leo">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/9_Virgo.png" alt="Virgo">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/10_Libra.png" alt="Libra">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/11_Scorpio.png" alt="Scorpio">
-            <img @click="setZodiak" class="zodiak__box__item" src="./assets/zodiak/12_Sagittarius.png" alt="Sagittarius">
+          <div v-if="formData.day && formData.month" class="zodiak__box">
+            <div v-if="this.formData.zodiak === 1">
+              <img class="zodiak__box__item" src="./assets/zodiak/1_Capricorn.png" alt="Capricorn">
+              <p class="zodiak__box__item-p">Козерог</p>
+            </div>
+            
+            <div v-if="this.formData.zodiak === 2">
+              <img class="zodiak__box__item" src="./assets/zodiak/2_Aquarius.png" alt="Aquarius">
+              <p class="zodiak__box__item-p">Водолей</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 3">
+              <img class="zodiak__box__item" src="./assets/zodiak/3_Pisces.png" alt="Pisces">
+              <p class="zodiak__box__item-p">Рыбы</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 4">
+              <img class="zodiak__box__item" src="./assets/zodiak/4_aries.png" alt="Aries">
+              <p class="zodiak__box__item-p">Овен</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 5">
+              <img class="zodiak__box__item" src="./assets/zodiak/5_Taurus.png" alt="Taurus">
+              <p class="zodiak__box__item-p">Телец</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 6">
+              <img class="zodiak__box__item" src="./assets/zodiak/6_Gemini.png" alt="Gemini">
+              <p class="zodiak__box__item-p">Близнецы</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 7">
+              <img class="zodiak__box__item" src="./assets/zodiak/7_Rak.png" alt="Rak">
+              <p class="zodiak__box__item-p">Рак</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 8">
+              <img class="zodiak__box__item" src="./assets/zodiak/8_Leo.png" alt="Leo">
+              <p class="zodiak__box__item-p">Лев</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 9">
+              <img class="zodiak__box__item" src="./assets/zodiak/9_Virgo.png" alt="Virgo">
+              <p class="zodiak__box__item-p">Дева</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 10">
+              <img class="zodiak__box__item" src="./assets/zodiak/10_Libra.png" alt="Libra">
+              <p class="zodiak__box__item-p">Весы</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 11">
+              <img class="zodiak__box__item" src="./assets/zodiak/11_Scorpio.png" alt="Scorpio">
+              <p class="zodiak__box__item-p">Скорпион</p>
+            </div>
+
+            <div v-if="this.formData.zodiak === 12">
+              <img class="zodiak__box__item" src="./assets/zodiak/12_Sagittarius.png" alt="Sagittarius">
+              <p class="zodiak__box__item-p">Стрелец</p>
+            </div>
           </div>
-          
-          <button v-if="formData.day && formData.month && formData.year && formData.zodiak" type="submit" @click="changeDisplayWST">ДАЛЕЕ</button>
+
+          <button class="display__button" v-if="formData.day && formData.month && formData.year" type="button" @click="changeDisplayWST">ДАЛЕЕ</button>
       </div>
     </form>
 
@@ -292,19 +339,20 @@
             <p>{{starship_12.name}}</p>
             <p>, {{starship_22.name}}</p>
           </div>
-        <div v-if="show">
-        ___________________________________________________________________
-          <h2>Данные формы</h2>
-            <p>gender: {{formData.gender}}</p>
-            <p>dayTime: {{formData.dayTime}}</p>
-            <p>insomnia: {{formData.insomnia}}</p>
-            <p>makesPlan: {{formData.makesPlan}}</p>
-            <p>FiveYearsAgo: {{formData.FiveYearsAgo}}</p>
-            <p>day: {{formData.day}}</p>
-            <p>month: {{formData.month}}</p>
-            <p>year: {{formData.year}}</p>
-            <p>zodiak: {{formData.zodiak}}</p>
-        </div>
+
+          <div v-if="show">
+            ___________________________________________________________________
+            <h2>Данные формы</h2>
+              <p>gender: {{formData.gender}}</p>
+              <p>dayTime: {{formData.dayTime}}</p>
+              <p>insomnia: {{formData.insomnia}}</p>
+              <p>makesPlan: {{formData.makesPlan}}</p>
+              <p>FiveYearsAgo: {{formData.FiveYearsAgo}}</p>
+              <p>day: {{formData.day}}</p>
+              <p>month: {{formData.month}}</p>
+              <p>year: {{formData.year}}</p>
+              <p>zodiak: {{formData.zodiak}}</p>
+          </div>
         </div>
 
 
@@ -332,7 +380,7 @@ export default {
         day: '',
         month: '',
         year: '',
-        zodiak: ''
+        zodiak: 0
       },
       fetchingData: {},
       homeworld: {},
@@ -344,11 +392,10 @@ export default {
     }
   },
   methods: {
-    setZodiak(event) {
-      this.formData.zodiak = event.target.alt;
-    },
-    sendData() {
-      console.log(this.formData);
+    showYear() {
+      const arr = new Array(2022).fill(1900, 0).map((n, i) => i + 1).slice(1900);
+      const res = arr.reverse();
+      return res;
     },
     changeDisplay() {
       this.display++;
@@ -370,7 +417,7 @@ export default {
         }
       }
     },
-    progress() {
+    async progress() {
       let width = 1;
       let id = setInterval(progressStatus, 60);
       function progressStatus() {
@@ -473,9 +520,9 @@ export default {
       }
     },
     fetching() {
+      this.fetchFilms();
       this.fetchData();
       this.fetchHomeworld();
-      this.fetchFilms();
       this.fetchVehicles_14();
       this.fetchVehicles_30();
       this.fetchStarship_12();
@@ -483,11 +530,22 @@ export default {
     },
     showing() {
       this.show = true;
+    },
+    setZodiak() {
+      if (this.formData.month) {
+        if (this.formData.day > 20) {
+          this.formData.zodiak = +this.formData.month + 1;
+        } else {
+          this.formData.zodiak = +this.formData.month;
+        }
+      }
     }
   },
   mounted() {
+    if (this.display === 1) {
+      this.rotated();
+    }
     this.fetching();
-    this.rotated();
   }
 }
 </script>
